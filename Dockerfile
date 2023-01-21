@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/yangyan/hadoop-base:2.0.0-hadoop3.3.4-java11
+FROM azul/zulu-openjdk-debian:11-jre-latest
 MAINTAINER yangyan <277160299@qq.com>
 
 ENV HADOOP_VERSION 3.3.4
