@@ -9,13 +9,13 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Paths;
 
 public class Main {
     private static final Logger log = LoggerFactory.getLogger(Main.class);
+
     public static void main(String[] args) throws IOException, URISyntaxException {
         listFiles(new Path("/hbase/"));
         createDir(new Path("/test"));
@@ -56,11 +56,12 @@ public class Main {
         }
     }
 
-    private static FileSystem getFileSystem() throws IOException, URISyntaxException {
+    private static FileSystem getFileSystem() throws IOException {
         Configuration conf = new Configuration();
-        conf.set("fs.defaultFS", "hdfs://namenode:9000");
-        conf.set("dfs.client.use.datanode.hostname", "true");
+        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+        conf.addResource(contextClassLoader.getResource("core-site.xml"));
+        conf.addResource(contextClassLoader.getResource("hdfs-site.xml"));
         System.setProperty("HADOOP_USER_NAME", "root");
-        return FileSystem.get(new URI("hdfs://namenode:9000/"), conf);
+        return FileSystem.get(conf);
     }
 }
