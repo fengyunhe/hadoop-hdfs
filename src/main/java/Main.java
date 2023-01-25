@@ -17,7 +17,7 @@ public class Main {
     private static final Logger log = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) throws IOException, URISyntaxException {
-        listFiles(new Path("/hbase/"));
+        listFiles(new Path("/"));
         createDir(new Path("/test"));
         updateFile(new Path("/test/etc_passwd"));
         downloadFile(new Path("/test/etc_passwd"));
@@ -38,7 +38,7 @@ public class Main {
     }
 
     private static void updateFile(Path dstPath) throws IOException, URISyntaxException {
-        String localFilePath = "/etc/passwd";
+        String localFilePath = "/etc/hosts";
         log.info(localFilePath);
         getFileSystem().copyFromLocalFile(new Path(localFilePath), dstPath);
     }
@@ -61,7 +61,6 @@ public class Main {
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         conf.addResource(contextClassLoader.getResource("core-site.xml"));
         conf.addResource(contextClassLoader.getResource("hdfs-site.xml"));
-        System.setProperty("HADOOP_USER_NAME", "root");
         return FileSystem.get(conf);
     }
 }
